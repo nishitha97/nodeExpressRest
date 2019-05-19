@@ -1,10 +1,18 @@
 const express = require("express"),
     mongoose = require("mongoose");
 const port=3001;
+const cors=require("cors")
 mongoose.Promise = global.Promise;
 const app = express();
-app.use(express.json(), express.static(__dirname));
+app.use(express.json(), express.static(__dirname),cors);
 const UserModel = require('./user');
+
+
+const courses=[
+    {id:"1",name:"aaa"},
+    {id:"2",name:"bbb"}
+]
+
 
 mongoose.connect('mongodb://localhost:27017/nodetest', err => {
     if(err) {
@@ -12,6 +20,20 @@ mongoose.connect('mongodb://localhost:27017/nodetest', err => {
         process.exit(1);
     }
 });
+
+app.post("/courses",(req,res)=>{
+
+    const course={
+        id:req.body.id,
+        name:req.body.name
+    };
+    courses.push(course);
+    res.send(courses);
+
+
+});
+
+
 
 app.get('/', (req, res, next) => {
     res.sendFile('index.html');
