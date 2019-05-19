@@ -1,9 +1,10 @@
-const express = require("express"), mongoose = require("mongoose");
+const express = require("express"),
+    mongoose = require("mongoose");
+const port=3001;
 mongoose.Promise = global.Promise;
 const app = express();
 app.use(express.json(), express.static(__dirname));
 const UserModel = require('./user');
-
 
 mongoose.connect('mongodb://localhost:27017/nodetest', err => {
     if(err) {
@@ -11,7 +12,6 @@ mongoose.connect('mongodb://localhost:27017/nodetest', err => {
         process.exit(1);
     }
 });
-
 
 app.get('/', (req, res, next) => {
     res.sendFile('index.html');
@@ -40,11 +40,11 @@ user.save().then(user => {
     });
 });
 
-app.listen(3001, err => {
+app.listen(port, err => {
     if (err) {
         console.error(err);
         return;
-    }console.log('app listening on port 3001');
+    }console.log(`app listening on port ${port}`);
 });
 
 
